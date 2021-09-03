@@ -8,23 +8,16 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 一覧画面
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index()
     {
-        //
-    }
+        // 公開・新しい順に表示
+        $posts = Post::publicList();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('front.posts.index', compact('posts'));
     }
 
     /**
@@ -39,14 +32,16 @@ class PostController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 詳細画面
      *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
-    public function show(Post $post)
+    public function show(int $id)
     {
-        //
+        // 公開されている記事のIDから情報を取得し、詳細を表示する。
+        $post = Post::publicFindById($id);
+
+        return view('front.posts.show', compact('post'));
     }
 
     /**
