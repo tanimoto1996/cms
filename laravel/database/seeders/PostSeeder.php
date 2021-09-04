@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Post;
+use Illuminate\Support\Facades\Event;
 
 class PostSeeder extends Seeder
 {
@@ -14,7 +15,8 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        //ファクトリーを実行するために記述
-        Post::factory()->count(50)->create();
+        Event::fakeFor(function () {
+            Post::factory()->count(50)->create();
+        });
     }
 }

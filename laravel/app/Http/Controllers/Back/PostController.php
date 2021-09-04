@@ -17,7 +17,7 @@ class PostController extends Controller
     public function index()
     {
         // 記事一覧取得
-        $posts = Post::latest('id')->paginate(20);
+        $posts = Post::with('user')->latest('id')->paginate(20);
         return view('back.posts.index', compact('posts'));
     }
 

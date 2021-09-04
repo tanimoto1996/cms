@@ -43,6 +43,7 @@ $title = '投稿一覧';
                             ]) }}
             {{ Form::close() }}
           </td>
+          <td>{{ $post->user->name }}</td>
         </tr>
         @endforeach
       </tbody>

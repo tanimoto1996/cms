@@ -53,4 +53,23 @@ class Post extends Model
     {
         return $this->published_at->format('Y年m月d日');
     }
+
+    // 投稿した記事とユーザー情報を紐づける
+    // もし、紐づけるテーブルのカラムがIDじゃない場合は、第２引数に指定する。
+    public function user()
+    {
+        // Userに所属する（紐づける）
+        return $this->belongsTo(User::class);
+    }
+
+    // savingイベントでuser_idを保存する
+    protected static function boot()
+    {
+        parent::boot();
+
+        // 保存時user_idをログインユーザーに設定
+        self::saving(function ($post) {
+            $post->user_id = \Auth::id();
+        });
+    }
 }
