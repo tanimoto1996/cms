@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -12,12 +13,13 @@ class PostController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index($tagSlug = null)
     {
         // 公開・新しい順に表示
-        $posts = Post::publicList();
+        $posts = Post::publicList($tagSlug);
+        $tags = Tag::all();
 
-        return view('front.posts.index', compact('posts'));
+        return view('front.posts.index', compact('posts', 'tags'));
     }
 
     /**

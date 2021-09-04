@@ -21,6 +21,7 @@ $title = '投稿一覧';
       <tbody>
         @foreach($posts as $post)
         <tr>
+
           <td>{{ $post->id }}</td>
           <td>{{ $post->title }}</td>
           <td>{{ $post->is_public_label }}</td>

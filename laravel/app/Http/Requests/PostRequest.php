@@ -28,7 +28,9 @@ class PostRequest extends FormRequest
             'title' => 'required|max:20',
             'body' => 'max:1000',
             'is_public' => 'required|numeric',
-            'published_at' => 'required|date_format:Y-m-d H:i'
+            'published_at' => 'required|date_format:Y-m-d H:i',
+            // 数値であることと入力された値がtagsテーブルに存在するかチェック
+            'tags.*' => 'numeric|exists:tags,id'
         ];
     }
 
@@ -43,6 +45,7 @@ class PostRequest extends FormRequest
             'body' => '内容',
             'is_public' => 'ステータス',
             'published_at' => '公開日',
+            'tags.*' => 'タグ',
         ];
     }
 }

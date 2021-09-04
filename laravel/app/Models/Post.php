@@ -30,9 +30,15 @@ class Post extends Model
     }
 
     // 公開記事一覧表示
-    public function scopePublicList(Builder $query)
+    public function scopePublicList(Builder $query, string $tagSlug = null)
     {
+        if ($tagSlug) {
+            $query->whereHas('tags', function ($query) use ($tagSlug) {
+                $query->where('slug', $tagSlug);
+            });
+        }
         return $query
+            ->with('tags')
             ->public()
             ->latest('published_at')
             ->paginate(10);
@@ -62,6 +68,14 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    // タグテーブルと紐づける
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
     // savingイベントでuser_idを保存する
     protected static function boot()
     {
