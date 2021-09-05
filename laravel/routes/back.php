@@ -8,4 +8,8 @@ use App\Http\Controllers\Back\PostController;
 
 
 Route::get('/', DashboardController::class)->name('dashboard');
-Route::resource('posts', PostController::class)->except('show');
+
+// AuthSavesProvider（サービスプロバイダー）でroleカラムが１のユーザだけCRUDを使える
+Route::group(['middleware' => 'can:admin'], function () {
+  Route::resource('posts', PostController::class)->except('show');
+});

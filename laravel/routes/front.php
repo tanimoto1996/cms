@@ -7,4 +7,4 @@ use App\Http\Controllers\PostController;
 
 Route::get('/', [PostController::class, 'index'])->name('home');
 Route::resource('posts', PostController::class)->only(['index', 'show']);
-Route::get('posts/tag/{tagSlug}', 'PostController@index')->where('tagSlug', '[a-z]+')->name('posts.index.tag');
+Route::get('posts/tag/{tagSlug}', [PostController::class, 'index'])->name('posts.index.tag');

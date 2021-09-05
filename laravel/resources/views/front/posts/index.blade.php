@@ -7,6 +7,7 @@ $title = '投稿一覧';
 ?>
 @extends('front.layouts.base')
 
+
 @section('content')
 <div class="card-header">{{ $title }}</div>
 <div class="card-body">
