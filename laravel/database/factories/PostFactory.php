@@ -29,6 +29,8 @@ class PostFactory extends Factory
             'body' => $this->faker->realText(rand(100, 200)),
             'is_public' => $this->faker->boolean(90),
             'published_at' => $random_date,
+            // 引数にランダムに欲しい数字の最小値・最大値を指定する
+            'user_id' => $this->faker->numberBetween(1, 3),
             'created_at' => $random_date,
             'updated_at' => $random_date,
         ];

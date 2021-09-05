@@ -40,4 +40,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // postsテーブルと紐づける
+    // public function posts()
+    // {
+    //     // 記事を多く持っているので、hasManyメソッドを使用する
+    //     return $this->hasMany(Post::class);
+    // }
 }

@@ -30,9 +30,15 @@ class Post extends Model
     }
 
     // 公開記事一覧表示
-    public function scopePublicList(Builder $query)
+    public function scopePublicList(Builder $query, string $tagSlug = null)
     {
+        if ($tagSlug) {
+            $query->whereHas('tags', function ($query) use ($tagSlug) {
+                $query->where('slug', $tagSlug);
+            });
+        }
         return $query
+            ->with('tags')
             ->public()
             ->latest('published_at')
             ->paginate(10);
@@ -52,5 +58,32 @@ class Post extends Model
     public function getPublishedFormatAttribute()
     {
         return $this->published_at->format('Y年m月d日');
+    }
+
+    // 投稿した記事とユーザー情報を紐づける
+    // もし、紐づけるテーブルのカラムがIDじゃない場合は、第２引数に指定する。
+    public function user()
+    {
+        // Userに所属する（紐づける）
+        return $this->belongsTo(User::class);
+    }
+
+    // タグテーブルと紐づける
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+    // savingイベントでuser_idを保存する
+    protected static function boot()
+    {
+        parent::boot();
+
+        // 保存時user_idをログインユーザーに設定
+        self::saving(function ($post) {
+            $post->user_id = \Auth::id();
+        });
     }
 }

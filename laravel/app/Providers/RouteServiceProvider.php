@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider
 
             // フロント画面
             Route::middleware('web')
-                ->namespace($this->namespace . '\Front')
+                ->namespace($this->namespace)
                 ->as('front.')
                 ->group(base_path('routes/front.php'));
 
